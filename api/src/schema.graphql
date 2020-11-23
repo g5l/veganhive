@@ -1,0 +1,19 @@
+type User {
+  userId: ID!
+  name: String
+}
+
+type Post {
+  postId: ID!
+  author: User @relation(name: "AUTHOR", direction: "IN")
+  title: String!
+  description: String!
+  numberOfLikes: Int
+  comments: [Comment] @relation(name: "COMMENT", direction: "IN")
+}
+
+type Comment {
+  commentId: ID!
+  comment: String!
+  author: User @relation(name: "AUTHOR", direction: "IN")
+}
