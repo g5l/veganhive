@@ -33,6 +33,6 @@ Enter inside the `web-react` folder and run `yarn start`
   }
 ````
 - [ ] Improve UI
-- [ ] Add comment reference working 
+- [ ] Make the comment reference work
 - [ ] Reference User after create post
 - [ ] Add image upload using `aws-s3` 
