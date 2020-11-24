@@ -5,7 +5,10 @@ import { Grid, Typography, Button } from '@material-ui/core'
 import { Add as AddIcon, PersonAdd as PersonAddIcon } from '@material-ui/icons'
 import { headerStyles } from './styles'
 
-export const Header = React.memo(function Header({ handleOpen }) {
+export const Header = React.memo(function Header({
+  handleOpenPostModal,
+  handleOpenUserModal,
+}) {
   const classes = headerStyles()
   return (
     <Grid container justify="space-between" alignItems="center">
@@ -17,20 +20,20 @@ export const Header = React.memo(function Header({ handleOpen }) {
       <Grid item className={classes.topButtons}>
         <Button
           className={classes.actionButton}
-          onClick={handleOpen}
+          onClick={handleOpenUserModal}
           variant="contained"
           color="primary"
-          size="small"
+          size="medium"
           startIcon={<PersonAddIcon />}
         >
           Include User
         </Button>
         <Button
           className={classes.actionButton}
-          onClick={handleOpen}
+          onClick={handleOpenPostModal}
           variant="contained"
           color="primary"
-          size="small"
+          size="medium"
           startIcon={<AddIcon />}
         >
           Create Post
