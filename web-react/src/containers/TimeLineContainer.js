@@ -100,8 +100,14 @@ const INCREMENT_LIKE = gql`
 const ADD_COMMENT = gql`
   mutation CreateComment($comment: String!) {
     CreateComment(comment: $comment) {
-      comment
+      commentId
     }
+  }
+`
+
+const ADD_POST_COMMENT = gql`
+  mutation AddPostComments($commentId: _CommentInput!, $postId: _PostInput!) {
+    AddPostComments(from: $commentId, to: $postId)
   }
 `
 
@@ -116,10 +122,13 @@ export const TimeLineContainer = () => {
   const [name, setName] = React.useState()
   const [expanded, setIdentifier] = React.useState(false)
 
+  const [comment, setComment] = React.useState()
+
   const [addPost] = useMutation(ADD_POST)
   const [addUser] = useMutation(ADD_USER)
   const [addLike] = useMutation(INCREMENT_LIKE)
   const [addComment] = useMutation(ADD_COMMENT)
+  const [AddPostComment] = useMutation(ADD_POST_COMMENT)
 
   const handleOpenPostModal = () => {
     setOpenPostModal(true)
@@ -135,6 +144,21 @@ export const TimeLineContainer = () => {
 
   const handleCloseUserModa = () => {
     setOpenUserModal(false)
+  }
+
+  const handleAddComment = (e, postId) => {
+    e.preventDefault()
+    addComment({
+      variables: { comment },
+      update: (cache, { data: { CreateComment } }) => {
+        const { commentId } = CreateComment
+
+        AddPostComment({
+          variables: { postId: postId, commentId: commentId },
+          refetchQueries: [{ query: GET_POSTS }],
+        })
+      },
+    })
   }
 
   const handlePostSubmit = (event) => {
@@ -194,6 +218,8 @@ export const TimeLineContainer = () => {
               expanded={index === expanded}
               incrementLike={incrementLike}
               setIdentifier={setIdentifier}
+              handleAddComment={handleAddComment}
+              setComment={setComment}
             />
           </Grid>
         ))}

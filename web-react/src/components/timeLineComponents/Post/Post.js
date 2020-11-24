@@ -28,6 +28,8 @@ export const Post = React.memo(function Post({
   setIdentifier,
   identifier,
   expanded,
+  handleAddComment,
+  setComment,
 }) {
   const classes = postStyles()
 
@@ -76,7 +78,12 @@ export const Post = React.memo(function Post({
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Comment />
+          <Comment
+            handleAddComment={handleAddComment}
+            setComment={setComment}
+            comments={post.comments}
+            postId={post.postId}
+          />
         </CardContent>
       </Collapse>
     </Card>

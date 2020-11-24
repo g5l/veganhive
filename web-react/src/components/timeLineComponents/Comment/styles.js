@@ -8,4 +8,7 @@ export const commentStyles = makeStyles((theme) => ({
   inline: {
     display: 'inline',
   },
+  comment: {
+    marginBottom: 10,
+  },
 }))
