@@ -1,7 +1,7 @@
 const path = require('path')
 const execa = require('execa')
 
-const { templateName, templateFileName } = require('./config/index.json')
+const { templateName, templateFileName } = require('./config')
 const API_DIR = path.join(__dirname, '../api')
 const TEMPLATE_DIR = path.join(__dirname, `../${templateFileName}`)
 
