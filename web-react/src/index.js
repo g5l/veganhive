@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
-import App from './App'
+import { TimeLinePage } from './pages/TimeLinePage'
 import registerServiceWorker from './registerServiceWorker'
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client'
 
@@ -12,7 +12,7 @@ const client = new ApolloClient({
 
 const Main = () => (
   <ApolloProvider client={client}>
-    <App />
+    <TimeLinePage />
   </ApolloProvider>
 )
 
