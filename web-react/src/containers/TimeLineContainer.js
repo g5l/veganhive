@@ -18,6 +18,7 @@ import {
 import { Header } from '../components/commons/Header'
 import { Post } from '../components/timeLineComponents/Post'
 import { CreatePost } from '../components/modals/CreatePost'
+import { CreateUser } from '../components/modals/CreateUser'
 
 // import { Link } from 'react-router-dom'
 
@@ -51,6 +52,12 @@ const GET_POSTS = gql`
       title
       description
       numberOfLikes
+      comments {
+        comment
+        author {
+          name
+        }
+      }
     }
   }
 `
@@ -73,6 +80,14 @@ const ADD_POST = gql`
   }
 `
 
+const ADD_USER = gql`
+  mutation CreateUser($name: String!) {
+    CreateUser(name: $name) {
+      name
+    }
+  }
+`
+
 const INCREMENT_LIKE = gql`
   mutation incrementLike($id: ID!, $likes: Int!) {
     UpdatePost(postId: $id, numberOfLikes: $likes) {
@@ -82,30 +97,64 @@ const INCREMENT_LIKE = gql`
   }
 `
 
+const ADD_COMMENT = gql`
+  mutation CreateComment($comment: String!) {
+    CreateComment(comment: $comment) {
+      comment
+    }
+  }
+`
+
 export const TimeLineContainer = () => {
   const classes = useStyles()
 
-  const [open, setOpen] = React.useState(false)
+  const [openPostModal, setOpenPostModal] = React.useState(false)
+  const [openUserModal, setOpenUserModal] = React.useState(false)
+
   const [title, setTitle] = React.useState()
   const [description, setDescription] = React.useState()
+  const [name, setName] = React.useState()
   const [expanded, setIdentifier] = React.useState(false)
 
   const [addPost] = useMutation(ADD_POST)
+  const [addUser] = useMutation(ADD_USER)
   const [addLike] = useMutation(INCREMENT_LIKE)
+  const [addComment] = useMutation(ADD_COMMENT)
 
-  const handleOpen = () => {
-    setOpen(true)
+  const handleOpenPostModal = () => {
+    setOpenPostModal(true)
   }
 
-  const handleClose = () => {
-    setOpen(false)
+  const handleClosePostModal = () => {
+    setOpenPostModal(false)
   }
 
-  const handleSubmit = (event) => {
+  const handleOpenUserModal = () => {
+    setOpenUserModal(true)
+  }
+
+  const handleCloseUserModa = () => {
+    setOpenUserModal(false)
+  }
+
+  const handlePostSubmit = (event) => {
     event.preventDefault()
     addPost({
       variables: { title, description, numberOfLikes: 0 },
       refetchQueries: [{ query: GET_POSTS }],
+      update: () => {
+        handleClosePostModal()
+      },
+    })
+  }
+
+  const handleUserSubmit = (event) => {
+    event.preventDefault()
+    addUser({
+      variables: { name },
+      update: () => {
+        handleCloseUserModa()
+      },
     })
   }
 
@@ -132,7 +181,10 @@ export const TimeLineContainer = () => {
   return (
     <Container maxWidth="md">
       <CssBaseline />
-      <Header handleOpen={handleOpen} />
+      <Header
+        handleOpenPostModal={handleOpenPostModal}
+        handleOpenUserModal={handleOpenUserModal}
+      />
       <Grid container spacing={4}>
         {postData.Post.map((post, index) => (
           <Grid key={index} item md={6} sm={1} className={classes.card}>
@@ -150,11 +202,17 @@ export const TimeLineContainer = () => {
         <Copyright />
       </Box>
       <CreatePost
-        isOpen={open}
-        handleSubmit={handleSubmit}
-        handleClose={handleClose}
+        isOpen={openPostModal}
+        handleSubmit={handlePostSubmit}
+        handleClose={handleOpenPostModal}
         setDescription={setDescription}
         setTitle={setTitle}
+      />
+      <CreateUser
+        isOpen={openUserModal}
+        handleSubmit={handleUserSubmit}
+        handleClose={handleCloseUserModa}
+        setName={setName}
       />
     </Container>
   )
