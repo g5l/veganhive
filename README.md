@@ -38,3 +38,6 @@ Enter inside the `web-react` folder and run `yarn start`
 - [ ] Make the comment reference work
 - [ ] Reference User after create post
 - [ ] Add image upload using `aws-s3` 
+
+### Other ways to create the project without using a code generator
+- [Neo4 Example Application - GraphQL JavaScrip](https://github.com/neo4j-examples/movies-graphql-javascript)
