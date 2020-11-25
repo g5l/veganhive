@@ -12,6 +12,8 @@ Enter inside the `api` folder and run `yarn start:dev`
 ### App
 Enter inside the `web-react` folder and run `yarn start`
 
+### [Deploy URL](https://boring-roentgen-9f67e3.netlify.app/)
+
 
 ## Todo List
 
