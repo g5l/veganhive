@@ -3,7 +3,6 @@ import React from 'react'
 import {
   Grid,
   Button,
-  Typography,
   Divider,
   ListItem,
   List,
@@ -54,22 +53,10 @@ export const Comment = React.memo(function Comment({
       </form>
       {comments.map((comment, index) => (
         <Grid key={index} item md={12}>
-          <Divider variant="inset" component="li" />
+          <Divider variant="fullWidth" component="li" />
           <ListItem alignItems="flex-start">
             <ListItemText
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    component="span"
-                    variant="body2"
-                    className={classes.inline}
-                    color="textPrimary"
-                  >
-                    Ali Connors
-                  </Typography>
-                  {comment.comment}
-                </React.Fragment>
-              }
+              secondary={<React.Fragment>{comment.comment}</React.Fragment>}
             />
           </ListItem>
         </Grid>

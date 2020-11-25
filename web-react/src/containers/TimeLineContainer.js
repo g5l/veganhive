@@ -106,8 +106,12 @@ const ADD_COMMENT = gql`
 `
 
 const ADD_POST_COMMENT = gql`
-  mutation AddPostComments($commentId: _CommentInput!, $postId: _PostInput!) {
-    AddPostComments(from: $commentId, to: $postId)
+  mutation AddPostComments($from: _CommentInput!, $to: _PostInput!) {
+    AddPostComments(from: $from, to: $to) {
+      from {
+        comment
+      }
+    }
   }
 `
 
@@ -148,13 +152,15 @@ export const TimeLineContainer = () => {
 
   const handleAddComment = (e, postId) => {
     e.preventDefault()
+    e.target.reset()
+
     addComment({
       variables: { comment },
       update: (cache, { data: { CreateComment } }) => {
         const { commentId } = CreateComment
 
         AddPostComment({
-          variables: { postId: postId, commentId: commentId },
+          variables: { to: { postId }, from: { commentId } },
           refetchQueries: [{ query: GET_POSTS }],
         })
       },
